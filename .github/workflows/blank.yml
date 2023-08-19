@@ -47,8 +47,11 @@ jobs:
       run: tar --strip-components=1 -xJf /tmp/${SDK_NAME}.tar.xz -C openwrt
 
 
-    - name: Update feeds and  Install feeds
-      run: cd openwrt && ./scripts/feeds update -a  ./scripts/feeds install ${IPK_NAME}
+    - name: Update feeds 
+      run: cd openwrt && ./scripts/feeds update -a  
+      
+    - name: Install feeds
+      run: cd openwrt && ./scripts/feeds install ${IPK_NAME}
 
     - name: check path file
       run: ls -alh
@@ -58,6 +61,9 @@ jobs:
         cd openwrt
         make defconfig
         echo "CONFIG_PACKAGE_luci-app-oaf=y" >>.config  
+    - name: compile package
+      id: compile
+      run: |
         make download -j$(nproc) V=s
         make package/luci-app-oaf/compile V=99  
       
