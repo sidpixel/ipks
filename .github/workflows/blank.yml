@@ -60,7 +60,6 @@ jobs:
         make package/feeds/luci/luci-base/compile V=99
         make package/luci-app-oaf/compile V=99  
       
-
     - name: Compile the firmware
       id: compile
       run: |
@@ -68,14 +67,13 @@ jobs:
         echo -e "$(nproc) thread compile"
         make -j$(nproc) V=s
 
+    - name: Upload firmware directory
+      uses: actions/upload-artifact@master
+      with:
+        name: packages
+        path: bin/packages
 
-     - name: Upload firmware directory
-       uses: actions/upload-artifact@master
-       with:
-         name: packages
-         path: bin/packages
-
-     - name: Release
-       uses: softprops/action-gh-release@v1
-       with:
-         files: bin/packages
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: bin/packages
