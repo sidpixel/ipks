@@ -36,7 +36,7 @@ jobs:
     - name: Build IPK package
       run: |
         # Change to your IPK package directory
-        #cd ipk-package
+        cd openwrt
 
         # Run the compile command (adjust as needed)
         make openwrt/ipk-package/luci-app-oaf/compile V=99
