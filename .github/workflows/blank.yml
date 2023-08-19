@@ -33,7 +33,7 @@ jobs:
         cd ipk-package
 
         # Run the compile command (adjust as needed)
-        make package/luci-app-oaf/compile V=99
+        make ipk-package/luci-app-oaf/compile V=99
 
     - name: Upload IPK files
       uses: actions/upload-artifact@v2
