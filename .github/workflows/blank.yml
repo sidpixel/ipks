@@ -38,8 +38,6 @@ jobs:
       run: |
         df -hT $PWD
         git clone --depth 1 $REPO_URL  openwrt
-        cd openwrt
-
         
     - name: Download SDK
       run: wget -O /tmp/${SDK_NAME}.tar.xz ${SDK_URL}${SDK_NAME}.tar.xz
@@ -51,6 +49,8 @@ jobs:
     - name: Update feeds and  Install feeds
       run: cd openwrt && ./scripts/feeds update -a && ./scripts/feeds install -a
 
+    - name: check path file
+      run: ls -alh
     - name: Download package
       id: package
       run: |
