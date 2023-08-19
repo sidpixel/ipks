@@ -12,6 +12,7 @@ env:
   SDK_NAME: openwrt-sdk-22.03.5-x86-generic_gcc-11.2.0_musl.Linux-x86_64
   SDK_URL: https://downloads.openwrt.org/releases/22.03.5/targets/x86/generic/
   REPO_URL: https://github.com/Lienol/openwrt-OpenAppFilter
+  IPK_NAME: luci-app-oaf
   TZ: Asia/Shanghai
 
 jobs:
@@ -47,7 +48,7 @@ jobs:
 
 
     - name: Update feeds and  Install feeds
-      run: cd openwrt && ./scripts/feeds update -a && ./scripts/feeds install -a
+      run: cd openwrt && ./scripts/feeds update -a  ./scripts/feeds install ${IPK_NAME}
 
     - name: check path file
       run: ls -alh
