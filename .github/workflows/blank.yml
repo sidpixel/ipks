@@ -20,17 +20,18 @@ jobs:
         curl -L $SDK_URL | tar xJ
 
         # Set up environment for OpenWRT SDK
+        mv openwrt-sdk-22.03.5-x86-generic_gcc-11.2.0_musl.Linux-x86_64 openwrt
         export PATH=$PATH:$PWD/staging_dir/host/bin
         export STAGING_DIR=$PWD/staging_dir
 
     - name: Clone IPK repository
       run: |
-        git clone --depth 1 https://github.com/Lienol/openwrt-OpenAppFilter.git ipk-package
+        git clone --depth 1 https://github.com/Lienol/openwrt-OpenAppFilter.git openwrt/ipk-package
 
     - name: ls dir
       run: |
-        ls ipk-package
-        tree ./
+        ls openwrt/ipk-package
+        pstree openwrt
       
     - name: Build IPK package
       run: |
@@ -38,7 +39,7 @@ jobs:
         #cd ipk-package
 
         # Run the compile command (adjust as needed)
-        make ipk-package/luci-app-oaf/compile V=99
+        make openwrt/ipk-package/luci-app-oaf/compile V=99
 
     - name: Upload IPK files
       uses: actions/upload-artifact@v2
