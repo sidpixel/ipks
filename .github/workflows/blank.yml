@@ -45,7 +45,7 @@ jobs:
       run: wget -O /tmp/${SDK_NAME}.tar.xz ${SDK_URL}${SDK_NAME}.tar.xz
 
     - name: Unpack SDK
-      run: tar --strip-components=1 -xJf /tmp/${SDK_NAME}.tar.xz
+      run: tar --strip-components=1 -xJf /tmp/${SDK_NAME}.tar.xz -C openwrt
 
 
     - name: Update feeds and  Install feeds
