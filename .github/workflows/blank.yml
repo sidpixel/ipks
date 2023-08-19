@@ -56,8 +56,8 @@ jobs:
       run: |
         cd openwrt
         make defconfig
+        echo "CONFIG_PACKAGE_luci-app-oaf=y" >>.config  
         make download -j$(nproc) V=s
-        make package/feeds/luci/luci-base/compile V=99
         make package/luci-app-oaf/compile V=99  
       
 
