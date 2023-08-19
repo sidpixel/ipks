@@ -34,6 +34,7 @@ jobs:
       
     - name: Build IPK package
       run: |
+        export TERM=dumb  # 设置终端模式为无交互
         # Change to your IPK package directory
         cd openwrt
 
