@@ -17,7 +17,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: ipk Upload
+    
     steps:
       - name: Checkout
         uses: actions/checkout@main
