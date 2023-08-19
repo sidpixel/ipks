@@ -1,80 +1,42 @@
-name: ipk Upload
+name: Compile and Upload IPK Package
 
 on:
-  workflow_dispatch:
   push:
     branches:
-      - main
-    paths:
-      - '.github/workflows/**'
-
-env:
-  SDK_NAME: openwrt-sdk-22.03.5-x86-generic_gcc-11.2.0_musl.Linux-x86_64
-  SDK_URL: https://downloads.openwrt.org/releases/22.03.5/targets/x86/generic/
-  REPO_URL: https://github.com/Lienol/openwrt-OpenAppFilter
-  IPK_NAME: luci-app-oaf
-  TZ: Asia/Shanghai
+      - main  # 或者你的主要分支名称
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     
     steps:
-    - name: Checkout
-      uses: actions/checkout@main
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
-    - name: Initialization environment
-      env:
-        DEBIAN_FRONTEND: noninteractive
+    - name: Set up OpenWRT SDK environment
       run: |
-        sudo swapoff /swapfile || true
-        sudo rm -rf /swapfile /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
-        sudo -E apt-get -qq update
-        sudo -E apt-get -qq install binutils bzip2 xz-utils unzip git wget patch device-tree-compiler rsync
-        sudo -E apt-get -qq autoremove --purge
-        sudo -E apt-get -qq clean
-        sudo timedatectl set-timezone "$TZ"
+        # Download and extract OpenWRT SDK (replace with your SDK URL)
+        SDK_URL=https://downloads.openwrt.org/releases/22.03.5/targets/x86/generic/openwrt-sdk-22.03.5-x86-generic_gcc-11.2.0_musl.Linux-x86_64.tar.xz
+        curl -L $SDK_URL | tar xJ
 
-    - name: Clone ipk source code
+        # Set up environment for OpenWRT SDK
+        export PATH=$PATH:$PWD/staging_dir/host/bin
+        export STAGING_DIR=$PWD/staging_dir
+
+    - name: Clone IPK repository
       run: |
-        df -hT $PWD
-        git clone --depth 1 $REPO_URL  openwrt
-        
-    - name: Download SDK
-      run: wget -O /tmp/${SDK_NAME}.tar.xz ${SDK_URL}${SDK_NAME}.tar.xz
+        git clone --depth 1 https://github.com/Lienol/openwrt-OpenAppFilter.git ipk-package
 
-    - name: Unpack SDK
-      run: tar --strip-components=1 -xJf /tmp/${SDK_NAME}.tar.xz -C openwrt
-
-
-    - name: Update feeds 
-      run: cd openwrt && ./scripts/feeds update -a  
-      
-    - name: Install feeds
-      run: cd openwrt && ./scripts/feeds install ${IPK_NAME}
-
-    - name: check path file
-      run: ls -alh
-    - name: Download package
-      id: package
+    - name: Build IPK package
       run: |
-        cd openwrt
-        make defconfig
-        echo "CONFIG_PACKAGE_luci-app-oaf=y" >>.config  
-    - name: compile package
-      id: compile
-      run: |
-        make download -j$(nproc) V=s
-        make package/luci-app-oaf/compile V=99  
-      
+        # Change to your IPK package directory
+        cd ipk-package
 
-    - name: Upload firmware directory
-      uses: actions/upload-artifact@master
+        # Run the compile command (adjust as needed)
+        make package/your-package/compile
+
+    - name: Upload IPK files
+      uses: actions/upload-artifact@v2
       with:
-        name: packages
-        path: bin/packages
-
-    - name: Release
-      uses: softprops/action-gh-release@v1
-      with:
-        files: bin/packages
+        name: ipk-packages
+        path: ipk-package/bin/packages
