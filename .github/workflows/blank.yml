@@ -30,7 +30,8 @@ jobs:
 
     - name: ls dir
       run: |
-        ls openwrt/
+        ls -alh openwrt/
+        pwd
       
     - name: Build IPK package
       run: |
