@@ -38,7 +38,7 @@ jobs:
       run: |
         df -hT $PWD
         git clone --depth 1 $REPO_URL  openwrt
-        cd openwrt-sdk
+        cd openwrt
 
         
     - name: Download SDK
