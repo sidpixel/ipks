@@ -1,0 +1,84 @@
+name: ipk Upload
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'bin/packages/**'
+      - '.github/workflows/**'
+
+env:
+  SDK_NAME: openwrt-sdk-22.03.5-x86-generic_gcc-11.2.0_musl.Linux-x86_64
+  SDK_URL: https://downloads.openwrt.org/releases/22.03.5/targets/x86/generic/
+  REPO_URL: https://github.com/Lienol/openwrt-OpenAppFilter
+  TZ: Asia/Shanghai
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: ipk Upload
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
+        with:
+          fetch-depth: 1
+
+      - name: Initialization environment
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: |
+          sudo swapoff /swapfile || true
+          sudo rm -rf /swapfile /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
+          sudo -E apt-get -qq update
+          sudo -E apt-get -qq install binutils bzip2 xz-utils unzip git wget patch device-tree-compiler rsync
+          sudo -E apt-get -qq autoremove --purge
+          sudo -E apt-get -qq clean
+          sudo timedatectl set-timezone "$TZ"
+
+      - name: Clone ipk source code
+        run: |
+          df -hT $PWD
+          git clone --depth 1 $REPO_URL  openwrt
+          cd openwrt-sdk
+
+          
+      - name: Download SDK
+        run: wget -O /tmp/${SDK_NAME}.tar.xz ${SDK_URL}${SDK_NAME}.tar.xz
+
+      - name: Unpack SDK
+        run: tar --strip-components=1 -xJf /tmp/${SDK_NAME}.tar.xz
+
+
+      - name: Update feeds and  Install feeds
+        run: cd openwrt && ./scripts/feeds update -a && ./scripts/feeds install -a
+
+      - name: Download package
+        id: package
+        run: |
+          cd openwrt
+          make defconfig
+          make download -j$(nproc) V=s
+          make package/feeds/luci/luci-base/compile V=99
+          make package/luci-app-oaf/compile V=99  
+        
+
+      - name: Compile the firmware
+        id: compile
+        run: |
+          cd openwrt
+          echo -e "$(nproc) thread compile"
+          make -j$(nproc) V=s
+
+
+       - name: Upload firmware directory
+         uses: actions/upload-artifact@master
+         with:
+           name: packages
+           path: bin/packages
+
+       - name: Release
+         uses: softprops/action-gh-release@v1
+         with:
+           files: bin/packages
