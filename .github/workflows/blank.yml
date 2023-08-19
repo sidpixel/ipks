@@ -27,6 +27,8 @@ jobs:
       run: |
         git clone --depth 1 https://github.com/Lienol/openwrt-OpenAppFilter.git ipk-package
 
+    - name: ls dir
+      run: ls ipk-package
     - name: Build IPK package
       run: |
         # Change to your IPK package directory
