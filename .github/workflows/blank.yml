@@ -28,14 +28,17 @@ jobs:
         git clone --depth 1 https://github.com/Lienol/openwrt-OpenAppFilter.git ipk-package
 
     - name: ls dir
-      run: ls ipk-package
+      run: |
+        ls ipk-package
+        tree ./
+      
     - name: Build IPK package
       run: |
         # Change to your IPK package directory
-        cd ipk-package
+        #cd ipk-package
 
         # Run the compile command (adjust as needed)
-        make luci-app-oaf/compile V=99
+        make ipk-package/luci-app-oaf/compile V=99
 
     - name: Upload IPK files
       uses: actions/upload-artifact@v2
