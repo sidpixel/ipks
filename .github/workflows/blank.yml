@@ -4,7 +4,13 @@ on:
   push:
     branches:
       - main  # 或者你的主要分支名称
-
+env:
+  REPO_URL: https://github.com/coolsnowwolf/lede
+  REPO_BRANCH: master
+  FEEDS_CONF: feeds.conf.default
+  CONFIG_FILE: 8632.config
+  OS_ARCH: X86_32
+  DIY_P1_SH: diy.sh
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -13,37 +19,17 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Set up OpenWRT SDK environment
-      run: |
-        # Download and extract OpenWRT SDK (replace with your SDK URL)
-        SDK_URL=https://downloads.openwrt.org/releases/22.03.5/targets/x86/generic/openwrt-sdk-22.03.5-x86-generic_gcc-11.2.0_musl.Linux-x86_64.tar.xz
-        curl -L $SDK_URL | tar xJ
-
-        # Set up environment for OpenWRT SDK
-        mv openwrt-sdk-22.03.5-x86-generic_gcc-11.2.0_musl.Linux-x86_64 openwrt
-        export PATH=$PATH:$PWD/staging_dir/host/bin
-        export STAGING_DIR=$PWD/staging_dir
 
     - name: Clone IPK repository
       run: |
-        git clone --depth 1 https://github.com/Lienol/openwrt-OpenAppFilter.git openwrt/ipk-package
-
-    - name: ls dir
-      run: |
-        ls -alh openwrt/
-        pwd
-      
-    - name: Build IPK package
-      run: |
-        export TERM=dumb  # 设置终端模式为无交互
-        # Change to your IPK package directory
+        chmod +x $DIY_P1_SH
         cd openwrt
+        $GITHUB_WORKSPACE/$DIY_P1_SH
 
-        # Run the compile command (adjust as needed)
-        make ipk-package/luci-app-oaf/compile V=99
+  
 
     - name: Upload IPK files
       uses: actions/upload-artifact@v2
       with:
         name: ipk-packages
-        path: ipk-package/bin/packages
+        path: openwrt/bin/targets/x86/packages
