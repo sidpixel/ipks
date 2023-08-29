@@ -23,13 +23,12 @@ jobs:
     - name: Clone IPK repository
       run: |
         chmod +x $DIY_P1_SH
-        cd openwrt
         $GITHUB_WORKSPACE/$DIY_P1_SH
 
   
 
     - name: Upload IPK files
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@main
       with:
         name: ipk-packages
         path: openwrt/bin/targets/x86/packages
