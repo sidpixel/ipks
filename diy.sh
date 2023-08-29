@@ -7,7 +7,7 @@
 
 
 # pull openwrt 
-git clone -b https://github.com/openwrt/openwrt
+git clone  https://github.com/openwrt/openwrt
 
 
 # 拉取oaf流控插件
