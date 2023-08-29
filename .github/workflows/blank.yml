@@ -31,4 +31,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: ipk-packages
-        path: openwrt/bin/targets/x86/generic/packages
+        path: openwrt/bin/packages
