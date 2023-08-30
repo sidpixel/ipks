@@ -17,7 +17,7 @@ git clone https://github.com/destan19/OpenAppFilter.git openwrt/package/OpenAppF
 ./scripts/feeds update -a
 ./scripts/feeds install -a
 make defconfig
-#make V=s
+make V=s
 echo "CONFIG_TARGET_x86=y" >.config
 echo "CONFIG_TARGET_x86_64=y" >>.config
 echo "CONFIG_PACKAGE_luci-app-oaf=y" >>.config  
