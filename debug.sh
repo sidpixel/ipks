@@ -1,8 +1,8 @@
 sudo swapoff /mnt/swapfile       
 #sudo rm -rf /imagegeneration/installers /opt/az /opt/hostedtoolcache /opt/microsoft /opt/pipx /opt/googles /mnt/swapfile 
-sudo rm -rf /imagegeneration /opt /mnt/swapfile 
+sudo rm -rf /imagegeneration /opt /mnt/swapfile /usr/local/aws*  /usr/local/julia* /usr/share/swift* /usr/share/sbt*
 
-#sudo    du -sh /home/* /imagegeneration/* /opt/* /mnt/*
-sudo du -sh   /usr/local/* /usr/share/*
+#sudo    du -sh /home/* /imagegeneration/* /opt/* /mnt/* /usr/share/miniconda*  /usr/share/dotnet* /usr/share/az* /usr/local/sqlpackage*  
+sudo du -sh   /usr/local/share/*
 df -hT
 
