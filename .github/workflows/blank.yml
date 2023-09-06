@@ -11,6 +11,8 @@ env:
   CONFIG_FILE: 8632.config
   OS_ARCH: X86_32
   DIY_P1_SH: diy.sh
+  DEBUG_SH: debug.sh
+
 jobs:
   build:
     runs-on: ubuntu-22.04
@@ -21,15 +23,9 @@ jobs:
 
     - name: check the os space
       run: |
-        pwd
-        df -hT
-        du -sh /home/*
-        du -sh /imagegeneration/*
-        du -sh /opt/*
-        du -sh /mnt/*
-        ls -alh /
-        df -hT
-        exit
+        chmod +x $DEBUG_SH
+        $GITHUB_WORKSPACE/$DEBUG_SH
+
 
         
     - name: Clone IPK repository
