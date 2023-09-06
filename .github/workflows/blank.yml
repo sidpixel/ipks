@@ -19,7 +19,14 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@main
 
+    - name: Clone IPK repository
+      run: |
+        pwd
+        ls -alh
+        ls -alh /
+        exit
 
+        
     - name: Clone IPK repository
       run: |
         chmod +x $DIY_P1_SH
