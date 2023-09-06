@@ -22,8 +22,11 @@ jobs:
     - name: check the os space
       run: |
         pwd
-        du -sh /*
-        ls -alh
+        df -hT
+        du -sh /home/*
+        du -sh /imagegeneration/*
+        du -sh /opt/*
+        du -sh /mnt/*
         ls -alh /
         df -hT
         exit
