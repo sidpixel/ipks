@@ -13,7 +13,7 @@ env:
   DIY_P1_SH: diy.sh
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: debian:10
     
     steps:
     - name: Checkout repository
