@@ -27,22 +27,4 @@ jobs:
         $GITHUB_WORKSPACE/$DEBUG_SH
 
 
-        
-    - name: Clone IPK repository
-      run: |
-        chmod +x $DIY_P1_SH
-        $GITHUB_WORKSPACE/$DIY_P1_SH
-
-  
-
-    - name: Upload IPK files
-      uses: actions/upload-artifact@v2
-      with:
-        name: ipk-packages
-        path: openwrt/bin/packages/*/base/*.ipk
-
-    - name: Release
-      uses: softprops/action-gh-release@v1
-      with:
-        tag_name: ${{ env.OS_ARCH }}-${{ env.FILE_DATE }}
-        files: openwrt/bin/packages/*/base/*.ipk
+   
