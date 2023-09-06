@@ -13,7 +13,7 @@ env:
   DIY_P1_SH: diy.sh
 jobs:
   build:
-    runs-on: debian:10
+    runs-on: debian:11
     
     steps:
     - name: Checkout repository
@@ -25,6 +25,7 @@ jobs:
         du -sh /*
         ls -alh
         ls -alh /
+        df -hT
         exit
 
         
