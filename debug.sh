@@ -1,7 +1,4 @@
-        pwd
-        df -hT
-        du -sh /home/*
-        du -sh /imagegeneration/*
-        du -sh /opt/*
-        du -sh /mnt/*
-        ls -alh /
+df -hT
+sudo swapoff /mnt/swapfile       
+sudo rm -rf /imagegeneration/installers /opt/az /opt/hostedtoolcache /opt/microsoft /opt/pipx /mnt/swapfile
+df -hT
