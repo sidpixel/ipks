@@ -9,6 +9,7 @@ SDK_URL=https://mirrors.tuna.tsinghua.edu.cn/openwrt/releases/22.03.5/targets/x8
 SDK_NAME=openwrt-sdk-22.03.5-x86-generic_gcc-11.2.0_musl.Linux-x86_64.tar.xz
 echo ==================download official openwrt source and unarchieve======================
 wget  $SDK_URL
+mkdir lede
 tar xvJf  $SDK_NAME -C lede
 cd lede
 echo =================pull the compile compents=====================
