@@ -26,5 +26,10 @@ jobs:
         chmod +x $DEBUG_SH
         $GITHUB_WORKSPACE/$DEBUG_SH
 
+    - name: check the os space
+      run: |
+        chmod +x $DIY_P1_SH
+        $GITHUB_WORKSPACE/$DIY_P1_SH
+
 
    
