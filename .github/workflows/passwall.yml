@@ -1,4 +1,4 @@
-name: openclash ipk
+name: passwall ipk
 
 on:
   push:
