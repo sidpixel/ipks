@@ -63,7 +63,8 @@ jobs:
       - name: Build Package
         run: |
           set -e
-          echo "src-git small https://github.com/kenzok8/small" > openwrt-sdk/feeds.conf
+          echo "src-git passwall https://github.com/xiaorouji/openwrt-passwall" > openwrt-sdk/feeds.conf
+          echo "src-git passwall https://github.com/xiaorouji/openwrt-passwall2" >> openwrt-sdk/feeds.conf
           echo 'CONFIG_PACKAGE_luci-app-passwall=y
           CONFIG_PACKAGE_luci-app-passwall2=y
           ' >> openwrt-sdk/.config
