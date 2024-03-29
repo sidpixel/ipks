@@ -64,8 +64,7 @@ jobs:
         run: |
           set -e
           echo "src-git small https://github.com/kenzok8/small" > openwrt-sdk/feeds.conf
-          echo 'CONFIG_PACKAGE_passwall=y
-          CONFIG_PACKAGE_luci-app-passwall=y
+          echo 'CONFIG_PACKAGE_luci-app-passwall=y
           ' >> openwrt-sdk/.config
           cd openwrt-sdk
           cat feeds.conf.default >> feeds.conf
@@ -75,15 +74,9 @@ jobs:
           make defconfig
 
           ./scripts/feeds install -d y -f -a
-          make package/passwall/compile V=s
           make package/luci-app-passwall/compile V=s
+          make package/luci-app-passwall2/compile V=s
           tree bin/packages/
-      - name: Archive package
-        uses: actions/upload-artifact@v3
-        with:
-          name: passwall-openwrt-${{ matrix.target.arch }}
-          path: openwrt-sdk/bin/packages/*/passwall/passwall*.ipk
-          if-no-files-found: error
       - name: Archive luci packages
         uses: actions/upload-artifact@v3
         if: ${{ matrix.target.arch == 'aarch64_generic' }}
@@ -91,14 +84,6 @@ jobs:
           name: passwall-openwrt-${{ matrix.target.arch }}
           path: openwrt-sdk/bin/packages/*/passwall/luci-*.ipk
           if-no-files-found: error
-      - name: Upload package to GitHub Release
-        uses: softprops/action-gh-release@v1
-        if: "startsWith(github.ref, 'refs/tags/')"
-        with:
-          files: |
-            openwrt-sdk/bin/packages/*/passwall/passwall*.ipk
-          prerelease: ${{ contains(github.ref, 'alpha') || contains(github.ref, 'beta') }}
-          generate_release_notes: true
       - name: Upload luci packages to GitHub Release
         uses: softprops/action-gh-release@v1
         if: ${{ startsWith(github.ref, 'refs/tags/') && matrix.target.arch == 'aarch64_generic' }}
