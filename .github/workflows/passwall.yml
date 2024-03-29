@@ -65,6 +65,7 @@ jobs:
           set -e
           echo "src-git small https://github.com/kenzok8/small" > openwrt-sdk/feeds.conf
           echo 'CONFIG_PACKAGE_luci-app-passwall=y
+          CONFIG_PACKAGE_luci-app-passwall2=y
           ' >> openwrt-sdk/.config
           cd openwrt-sdk
           cat feeds.conf.default >> feeds.conf
