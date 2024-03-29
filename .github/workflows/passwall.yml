@@ -1,4 +1,4 @@
-name: passwall ipk
+name: passwall_ipk
 
 on:
   push:
@@ -15,7 +15,7 @@ jobs:
   openwrt:
     name: OpenWrt Package - ${{ matrix.target.arch }}
     runs-on: ubuntu-20.04
-    needs: [ linux, linux-others ]
+    #needs: [ linux, linux-others ]
     environment: OpenWrt
     strategy:
       fail-fast: false
